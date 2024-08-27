@@ -1,0 +1,285 @@
+model User {
+    id                       String    @id @default(uuid())
+    username                 String    @unique
+    email                    String    @unique
+    passwordHash             String
+    firstName                String
+    lastName                 String
+    dateOfBirth              DateTime
+    gender                   String?
+    phoneNumber              String?
+    address                  String?
+    city                     String?
+    state                    String?
+    zipCode                  String?
+    country                  String?
+    maritalStatus            String?
+    employmentStatus         String?
+    occupation               String?
+    employerName             String?
+    annualSalary             Float?
+    taxFilingStatus          String?
+    dependentsCount          Int?
+    preferredCurrency        String?
+    subscriptionType         String? // Free, Premium, etc.
+    language                 String?
+    communicationPreferences String?
+    userRole                 String? // Admin, User, etc.
+    avatar                   String? // Profile picture URL
+    createdAt                DateTime  @default(now())
+    lastLogin                DateTime?
+    lastUpdate               DateTime  @updatedAt
+    isVerified               Boolean   @default(false)
+    twoFactorEnabled         Boolean   @default(false)
+    lastPasswordChange       DateTime?
+    accountStatus            String? // Active, Suspended, Deactivated
+    loginAttempts            Int?      @default(0)
+
+    incomeRecords     IncomeRecord[]
+    expenseRecords    ExpenseRecord[]
+    budgets           BudgetRecord[]
+    debts             DebtRecord[]
+    savings           SavingsRecord[]
+    investments       InvestmentRecord[]
+    netWorthSummaries NetWorthSummary[]
+    agentLogs         AgentLog[]
+    agentFeedback     AgentFeedback[]
+    tasks             Task[]
+    reports           Report[]
+    excelDocuments    ExcelDocument[]
+    goals             Goal[]
+    progressLogs      ProgressLog[]
+    qualityControl    QualityControl[]
+    audits            AuditLog[]
+    preferences       Preference[]
+    apiLogs           APILog[]
+    reminders         Reminder[]
+}
+
+model IncomeRecord {
+    id           String   @id @default(uuid())
+    userId       String
+    user         User     @relation(fields: [userId], references: [id])
+    incomeSource String
+    amount       Float
+    date         DateTime
+    recurring    String? // One-Time, Monthly, Yearly
+    taxable      Boolean  @default(true)
+}
+
+model ExpenseRecord {
+    id                  String    @id @default(uuid())
+    userId              String
+    user                User      @relation(fields: [userId], references: [id])
+    category            String
+    amount              Float
+    date                DateTime
+    description         String?
+    paymentMethod       String?
+    merchantName        String?
+    location            String? // Online, Physical Store
+    isRecurring         Boolean   @default(false)
+    subscriptionEndDate DateTime?
+}
+
+model BudgetRecord {
+    id            String   @id @default(uuid())
+    userId        String
+    user          User     @relation(fields: [userId], references: [id])
+    category      String
+    plannedAmount Float
+    actualAmount  Float
+    month         String
+    year          String
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+}
+
+model DebtRecord {
+    id                String    @id @default(uuid())
+    userId            String
+    user              User      @relation(fields: [userId], references: [id])
+    debtName          String
+    originalBalance   Float
+    currentBalance    Float
+    interestRate      Float
+    minimumPayment    Float
+    dueDate           DateTime?
+    monthsToPayoff    Int?
+    totalInterestPaid Float?
+    debtType          String? // Secured, Unsecured
+    status            String? // Active, Paid Off
+}
+
+model SavingsRecord {
+    id            String    @id @default(uuid())
+    userId        String
+    user          User      @relation(fields: [userId], references: [id])
+    goal          String
+    targetAmount  Float
+    currentAmount Float
+    dateCreated   DateTime  @default(now())
+    dateUpdated   DateTime  @updatedAt
+    deadline      DateTime?
+}
+
+model InvestmentRecord {
+    id                  String   @id @default(uuid())
+    userId              String
+    user                User     @relation(fields: [userId], references: [id])
+    investmentType      String // Stocks, Bonds, Real Estate, etc.
+    amountInvested      Float
+    currentValue        Float
+    dateInvested        DateTime
+    dateUpdated         DateTime @updatedAt
+    investmentPlatform  String? // Robinhood, Fidelity, etc.
+    dividendsReceived   Float?
+    investmentRiskLevel String? // High, Medium, Low
+}
+
+model NetWorthSummary {
+    id               String   @id @default(uuid())
+    userId           String
+    user             User     @relation(fields: [userId], references: [id])
+    totalAssets      Float
+    liquidAssets     Float?
+    illiquidAssets   Float?
+    totalLiabilities Float
+    netWorth         Float
+    dateCreated      DateTime @default(now())
+}
+
+model AgentLog {
+    id              String   @id @default(uuid())
+    userId          String
+    user            User     @relation(fields: [userId], references: [id])
+    agentName       String
+    taskDescription String
+    interactionDate DateTime @default(now())
+    agentResponse   String?
+    resultStatus    String? // Success, Failure
+    confidenceLevel Float? // E.g., 96%
+}
+
+model AgentFeedback {
+    id              String   @id @default(uuid())
+    userId          String
+    user            User     @relation(fields: [userId], references: [id])
+    agentName       String
+    taskDescription String
+    feedback        String
+    dateSubmitted   DateTime @default(now())
+}
+
+model Task {
+    id              String   @id @default(uuid())
+    userId          String
+    user            User     @relation(fields: [userId], references: [id])
+    taskName        String
+    taskDescription String
+    taskStatus      String? // Pending, Completed
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+    Report          Report[]
+}
+
+model Report {
+    id           String   @id @default(uuid())
+    userId       String
+    user         User     @relation(fields: [userId], references: [id])
+    reportType   String // Monthly Budget, Debt Strategy, etc.
+    generatedAt  DateTime @default(now())
+    filePath     String
+    taskId       String
+    task         Task     @relation(fields: [taskId], references: [id])
+    dataSummary  String?
+    reportFormat String? // PDF, Excel
+}
+
+model ExcelDocument {
+    id             String   @id @default(uuid())
+    userId         String
+    user           User     @relation(fields: [userId], references: [id])
+    documentType   String // Budget Sheet, Debt Tracker, Financial Summary
+    filePath       String
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+    generatedBy    String? // Agent Name
+    documentFormat String? // XLSX, CSV
+}
+
+model Goal {
+    id              String        @id @default(uuid())
+    userId          String
+    user            User          @relation(fields: [userId], references: [id])
+    goalType        String // Debt Reduction, Savings Target
+    targetAmount    Float
+    currentProgress Float
+    deadline        DateTime?
+    createdAt       DateTime      @default(now())
+    updatedAt       DateTime      @updatedAt
+    priorityLevel   String? // High, Medium, Low
+    ProgressLog     ProgressLog[]
+}
+
+model ProgressLog {
+    id                  String   @id @default(uuid())
+    goalId              String
+    goal                Goal     @relation(fields: [goalId], references: [id])
+    progressDescription String
+    dateLogged          DateTime @default(now())
+    milestoneAchieved   Boolean?
+    User                User?    @relation(fields: [userId], references: [id])
+    userId              String?
+}
+
+model QualityControl {
+    id                      String   @id @default(uuid())
+    userId                  String
+    user                    User     @relation(fields: [userId], references: [id])
+    agentName               String
+    taskName                String
+    qualityCheckDescription String
+    result                  String? // Passed, Failed
+    dateChecked             DateTime @default(now())
+    errorCount              Int?
+    qualityScore            Float? // Rating based on quality
+}
+
+model AuditLog {
+    id                String   @id @default(uuid())
+    userId            String
+    user              User     @relation(fields: [userId], references: [id])
+    actionDescription String
+    dateLogged        DateTime @default(now())
+    ipAddress         String?
+}
+
+model Preference {
+    id           String   @id @default(uuid())
+    userId       String
+    user         User     @relation(fields: [userId], references: [id])
+    settingName  String
+    settingValue String
+    dateUpdated  DateTime @updatedAt
+}
+
+model APILog {
+    id                     String   @id @default(uuid())
+    userId                 String
+    user                   User     @relation(fields: [userId], references: [id])
+    apiName                String
+    interactionDescription String
+    responseStatus         String?
+    dateLogged             DateTime @default(now())
+}
+
+model Reminder {
+    id                  String   @id @default(uuid())
+    userId              String
+    user                User     @relation(fields: [userId], references: [id])
+    reminderDescription String
+    dueDate             DateTime
+    status              String? // Pending, Completed
+    dateCreated         DateTime @default(now())
+}
