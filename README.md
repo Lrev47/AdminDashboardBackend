@@ -85,3 +85,323 @@ cd financial-dashboard-backend
 
 
 ```
+
+1. Authentication
+   POST /auth/register
+   POST /auth/login
+   POST /auth/logout
+   POST /auth/refresh-token
+   POST /auth/forgot-password
+   POST /auth/reset-password
+   GET /auth/verify-email
+   GET /auth/me
+   POST /auth/change-password
+   GET /auth/roles
+   POST /auth/assign-role
+   POST /auth/revoke-role
+   POST /auth/verify-token
+2. User Management
+   GET /users
+   GET /users/
+   POST /users
+   PUT /users/
+   DELETE /users/
+   PATCH /users/
+   /status
+   GET /users/me
+   PATCH /users/me
+   POST /users/search
+   POST /users/bulk-create
+   POST /users/
+   /role
+   POST /users/
+   /revoke-role
+   GET /users/roles
+   GET /users/activity/
+   POST /users/
+   /notifications
+   GET /users/
+   /notifications
+3. Financial Data
+   GET /financial/accounts
+   GET /financial/accounts/
+   POST /financial/accounts
+   PUT /financial/accounts/
+   DELETE /financial/accounts/
+   GET /financial/transactions
+   GET /financial/transactions/
+   POST /financial/transactions
+   PUT /financial/transactions/
+   DELETE /financial/transactions/
+   GET /financial/budgets
+   GET /financial/budgets/
+   POST /financial/budgets
+   PUT /financial/budgets/
+   DELETE /financial/budgets/
+   GET /financial/categories
+   POST /financial/categories
+   PUT /financial/categories/
+   DELETE /financial/categories/
+   GET /financial/reports
+   POST /financial/reports
+   GET /financial/goals
+   POST /financial/goals
+   PUT /financial/goals/
+   DELETE /financial/goals/
+   GET /financial/investments
+   POST /financial/investments
+   PUT /financial/investments/
+   DELETE /financial/investments/
+4. Image Management
+   POST /images/upload
+   GET /images
+   GET /images/
+   DELETE /images/
+   PUT /images/
+   /metadata
+   POST /images/
+   /share
+   POST /images/
+   /resize
+   POST /images/
+   /compress
+   POST /images/
+   /convert
+   GET /images/
+   /download
+   POST /images/
+   /annotate
+   GET /images/
+   /metadata
+   POST /images/
+   /crop
+   GET /images/tags
+   GET /images/tag/
+5. Analytics & Reports
+   GET /analytics/summary
+   POST /analytics/custom-report
+   GET /analytics/datasets
+   POST /analytics/datasets
+   GET /analytics/datasets/
+   PUT /analytics/datasets/
+   DELETE /analytics/datasets/
+   GET /analytics/metrics
+   POST /analytics/aggregate
+   POST /analytics/visualize
+   GET /analytics/reports
+   GET /analytics/reports/
+   POST /analytics/reports
+   DELETE /analytics/reports/
+   POST /analytics/reports/export
+   GET /analytics/tags
+6. Environment Management
+   GET /environments
+   GET /environments/
+   POST /environments
+   PUT /environments/
+   DELETE /environments/
+   POST /environments/
+   /deploy
+   GET /environments/
+   /logs
+   POST /environments/
+   /reset
+   POST /environments/
+   /switch
+   GET /environments/variables/
+   POST /environments/variables/
+   DELETE /environments/variables/
+   POST /environments/
+   /backup
+   POST /environments/
+   /restore
+7. Notifications & Alerts
+   GET /notifications
+   GET /notifications/
+   POST /notifications
+   PUT /notifications/
+   DELETE /notifications/
+   POST /notifications/
+   /read
+   POST /notifications/
+   /unread
+   GET /notifications/types
+   GET /alerts
+   POST /alerts
+   PUT /alerts/
+   DELETE /alerts/
+   POST /alerts/
+   /resolve
+   GET /alerts/active
+   POST /alerts/bulk-resolve
+8. Project Management
+   GET /projects
+   GET /projects/
+   POST /projects
+   PUT /projects/
+   DELETE /projects/
+   GET /projects/
+   /milestones
+   POST /projects/
+   /milestones
+   PUT /projects/
+   /milestones/
+   DELETE /projects/
+   /milestones/
+   GET /projects/
+   /tasks
+   POST /projects/
+   /tasks
+   PUT /projects/
+   /tasks/
+   DELETE /projects/
+   /tasks/
+   GET /projects/tags
+   POST /projects/
+   /assign
+   POST /projects/
+   /unassign
+9. Settings & Configurations
+   GET /settings
+   GET /settings/
+   PUT /settings/
+   POST /settings
+   DELETE /settings/
+   GET /settings/categories
+   PUT /settings/category/
+   GET /settings/preferences
+   PUT /settings/preferences
+   GET /settings/notifications
+   PUT /settings/notifications
+   POST /settings/reset
+10. User Permissions
+    GET /permissions/roles
+    POST /permissions/roles
+    GET /permissions/roles/
+    PUT /permissions/roles/
+    DELETE /permissions/roles/
+    GET /permissions/roles/
+    /users
+    POST /permissions/roles/
+    /assign
+    POST /permissions/roles/
+    /revoke
+    GET /permissions/users/
+    /roles
+    GET /permissions/capabilities
+    POST /permissions/roles/
+    /capabilities
+    DELETE /permissions/roles/
+    /capabilities
+    GET /permissions/audit-log
+    GET /permissions/requests
+    POST /permissions/requests/
+    /approve
+    POST /permissions/requests/
+    /deny
+11. Mock Data
+    GET /mock-data
+    GET /mock-data/
+    POST /mock-data
+    PUT /mock-data/
+    DELETE /mock-data/
+    POST /mock-data/test
+    GET /mock-data/schemas
+    POST /mock-data/generate
+    POST /mock-data/
+    /clone
+12. Version Control
+    GET /versions
+    GET /versions/
+    POST /versions
+    PUT /versions/
+    DELETE /versions/
+    GET /versions/
+    /schemas
+    POST /versions/
+    /schemas/migrate
+    POST /versions/
+    /rollback
+    GET /versions/changelog
+    GET /migrations
+    POST /migrations
+    GET /migrations/
+    POST /migrations/
+    /apply
+    POST /migrations/
+    /revert
+    POST /migrations/rollback
+    GET /migrations/log
+13. Content Management
+    GET /content
+    GET /content/
+    POST /content
+    PUT /content/
+    DELETE /content/
+    POST /content/
+    /publish
+    POST /content/
+    /unpublish
+    GET /content/tags
+    GET /content/authors
+    POST /content/upload
+    GET /content/media
+    GET /content/media/
+    DELETE /content/media/
+    GET /content/comments
+    POST /content/comments
+    DELETE /content/comments/
+    GET /content/revisions/
+    POST /content/revisions/
+    /restore
+14. Database Queries
+    POST /db/query
+    POST /db/batch-query
+    GET /db/tables
+    GET /db/tables/
+    POST /db/tables/
+    /data
+    PUT /db/tables/
+    /data/
+    DELETE /db/tables/
+    /data/
+    POST /db/import
+    GET /db/backups
+    POST /db/backups
+    POST /db/restore
+    GET /db/logs
+    POST /db/transactions
+    GET /db/schema
+15. External Service Integration
+    GET /external-services
+    POST /external-services
+    GET /external-services/
+    PUT /external-services/
+    DELETE /external-services/
+    POST /external-services/
+    /test
+    POST /external-services/
+    /execute
+    GET /external-services/logs
+    POST /external-services/webhooks
+    DELETE /external-services/webhooks/
+    GET /external-services/usage
+    POST /external-services/
+    /sync
+16. Testing & Debugging
+    POST /testing/run-test
+    POST /testing/run-test-suite
+    GET /testing/test-results
+    POST /debugging/logs
+    POST /debugging/error-reports
+    POST /testing/generate-mock-responses
+    GET /testing/coverage
+    POST /debugging/snapshots
+    GET /debugging/snapshots/
+    POST /testing/schedule-tests
+    POST /debugging/toggle-logging
+    GET /debugging/environment
+    POST /debugging/clear-cache
+    POST /debugging/simulate-error
+    GET /testing/reports
+    GET /debugging/memory-usage
