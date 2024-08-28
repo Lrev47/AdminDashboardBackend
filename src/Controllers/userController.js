@@ -1,4 +1,4 @@
-const prisma = require("../services/prismaClient");
+const prisma = require("../services/pirsmaClient");
 
 const userController = {
   getProfile: async (req, res, next) => {
