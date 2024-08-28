@@ -1,15 +1,13 @@
 const { PrismaClient } = require("@prisma/client");
-const fs = require("fs");
 const path = require("path");
+
+// Import the seed data from the seedData.js file
+const seedData = require(path.join(__dirname, "seedData.js"));
 
 const prisma = new PrismaClient();
 
 async function main() {
   try {
-    // Load the JSON data from the seed file
-    const dataPath = path.join(__dirname, "seedData.js");
-    const seedData = JSON.parse(fs.readFileSync(dataPath, "utf8"));
-
     // Seed Users
     for (const user of seedData) {
       await prisma.user.create({
