@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "node prisma/seedPrisma.js",
-    "start": "node src/server.js"
+    "start": "nodemon src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -17,8 +17,12 @@
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "faker": "^5.5.3",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
-    "prisma": "^5.18.0"
+    "nodemon": "^3.1.4",
+    "prisma": "^5.18.0",
+    "sharp": "^0.33.5",
+    "uuid": "^10.0.0"
   }
 }
