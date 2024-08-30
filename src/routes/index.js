@@ -15,7 +15,7 @@ const projectRoutes = require("./project-routes");
 const settingRoutes = require("./settings-routes");
 const testandDebugRoutes = require("./testing-and-debugging-routes");
 const userRoutes = require("./users-routes");
-// const versionControlRoutes = require("./version-control-routes");
+const versionControlRoutes = require("./version-control-routes");
 
 const app = express();
 
@@ -39,7 +39,7 @@ app.use("/project", projectRoutes);
 app.use("/settings", settingRoutes);
 app.use("/testandDebug", testandDebugRoutes);
 app.use("/user", userRoutes);
-// app.use("/", versionControlRoutes);
+app.use("/", versionControlRoutes);
 
 // Handle 404 errors
 app.use((req, res, next) => {
