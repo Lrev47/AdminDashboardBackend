@@ -67,8 +67,8 @@ model User {
 
 model IncomeRecord {
     id           String   @id @default(uuid())
-    userId       String
-    user         User     @relation(fields: [userId], references: [id])
+    userId       String?
+    user         User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
     incomeSource String
     amount       Float
     date         DateTime
@@ -78,8 +78,8 @@ model IncomeRecord {
 
 model ExpenseRecord {
     id                  String    @id @default(uuid())
-    userId              String
-    user                User      @relation(fields: [userId], references: [id])
+    userId              String?
+    user                User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
     category            String
     amount              Float
     date                DateTime
@@ -93,8 +93,8 @@ model ExpenseRecord {
 
 model BudgetRecord {
     id            String   @id @default(uuid())
-    userId        String
-    user          User     @relation(fields: [userId], references: [id])
+    userId        String?
+    user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
     category      String
     plannedAmount Float
     actualAmount  Float
@@ -106,8 +106,8 @@ model BudgetRecord {
 
 model DebtRecord {
     id                String    @id @default(uuid())
-    userId            String
-    user              User      @relation(fields: [userId], references: [id])
+    userId            String?
+    user              User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
     debtName          String
     originalBalance   Float
     currentBalance    Float
@@ -122,8 +122,8 @@ model DebtRecord {
 
 model SavingsRecord {
     id            String    @id @default(uuid())
-    userId        String
-    user          User      @relation(fields: [userId], references: [id])
+    userId        String?
+    user          User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
     goal          String
     targetAmount  Float
     currentAmount Float
@@ -134,8 +134,8 @@ model SavingsRecord {
 
 model InvestmentRecord {
     id                  String   @id @default(uuid())
-    userId              String
-    user                User     @relation(fields: [userId], references: [id])
+    userId              String?
+    user                User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
     investmentType      String // Stocks, Bonds, Real Estate, etc.
     amountInvested      Float
     currentValue        Float
@@ -148,8 +148,8 @@ model InvestmentRecord {
 
 model NetWorthSummary {
     id               String   @id @default(uuid())
-    userId           String
-    user             User     @relation(fields: [userId], references: [id])
+    userId           String?
+    user             User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
     totalAssets      Float
     liquidAssets     Float?
     illiquidAssets   Float?
@@ -160,8 +160,8 @@ model NetWorthSummary {
 
 model AgentLog {
     id              String   @id @default(uuid())
-    userId          String
-    user            User     @relation(fields: [userId], references: [id])
+    userId          String?
+    user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
     agentName       String
     taskDescription String
     interactionDate DateTime @default(now())
@@ -172,8 +172,8 @@ model AgentLog {
 
 model AgentFeedback {
     id              String   @id @default(uuid())
-    userId          String
-    user            User     @relation(fields: [userId], references: [id])
+    userId          String?
+    user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
     agentName       String
     taskDescription String
     feedback        String
@@ -182,8 +182,8 @@ model AgentFeedback {
 
 model Task {
     id              String   @id @default(uuid())
-    userId          String
-    user            User     @relation(fields: [userId], references: [id])
+    userId          String?
+    user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
     taskName        String
     taskDescription String
     taskStatus      String? // Pending, Completed
@@ -194,8 +194,8 @@ model Task {
 
 model Report {
     id           String   @id @default(uuid())
-    userId       String
-    user         User     @relation(fields: [userId], references: [id])
+    userId       String?
+    user         User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
     reportType   String // Monthly Budget, Debt Strategy, etc.
     generatedAt  DateTime @default(now())
     filePath     String
@@ -207,8 +207,8 @@ model Report {
 
 model ExcelDocument {
     id             String   @id @default(uuid())
-    userId         String
-    user           User     @relation(fields: [userId], references: [id])
+    userId         String?
+    user           User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
     documentType   String // Budget Sheet, Debt Tracker, Financial Summary
     filePath       String
     createdAt      DateTime @default(now())
@@ -219,8 +219,8 @@ model ExcelDocument {
 
 model Goal {
     id              String        @id @default(uuid())
-    userId          String
-    user            User          @relation(fields: [userId], references: [id])
+    userId          String?
+    user            User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
     goalType        String // Debt Reduction, Savings Target
     targetAmount    Float
     currentProgress Float
@@ -238,14 +238,14 @@ model ProgressLog {
     progressDescription String
     dateLogged          DateTime @default(now())
     milestoneAchieved   Boolean?
-    User                User?    @relation(fields: [userId], references: [id])
+    user                User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
     userId              String?
 }
 
 model QualityControl {
     id                      String   @id @default(uuid())
-    userId                  String
-    user                    User     @relation(fields: [userId], references: [id])
+    userId                  String?
+    user                    User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
     agentName               String
     taskName                String
     qualityCheckDescription String
@@ -257,8 +257,8 @@ model QualityControl {
 
 model AuditLog {
     id                String   @id @default(uuid())
-    userId            String
-    user              User     @relation(fields: [userId], references: [id])
+    userId            String?
+    user              User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
     actionDescription String
     dateLogged        DateTime @default(now())
     ipAddress         String?
@@ -266,8 +266,8 @@ model AuditLog {
 
 model Preference {
     id           String   @id @default(uuid())
-    userId       String
-    user         User     @relation(fields: [userId], references: [id])
+    userId       String?
+    user         User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
     settingName  String
     settingValue String
     dateUpdated  DateTime @updatedAt
@@ -275,8 +275,8 @@ model Preference {
 
 model APILog {
     id                     String   @id @default(uuid())
-    userId                 String
-    user                   User     @relation(fields: [userId], references: [id])
+    userId                 String?
+    user                   User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
     apiName                String
     interactionDescription String
     responseStatus         String?
@@ -285,8 +285,8 @@ model APILog {
 
 model Reminder {
     id                  String   @id @default(uuid())
-    userId              String
-    user                User     @relation(fields: [userId], references: [id])
+    userId              String?
+    user                User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
     reminderDescription String
     dueDate             DateTime
     status              String? // Pending, Completed

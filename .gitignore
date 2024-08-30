@@ -10,3 +10,5 @@ node_modules/
 # Build outputs (adjust according to your project)
 dist/
 build/
+JsonFiles/
+.gitignore

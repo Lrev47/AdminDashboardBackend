@@ -46,9 +46,9 @@ const userService = {
   getUserStatus: async (id) => {
     const user = await db.user.findUnique({
       where: { id },
-      select: { status: true },
+      select: { accountStatus: true },
     });
-    return user.status;
+    return user.accountStatus;
   },
 
   // Get the authenticated user's profile

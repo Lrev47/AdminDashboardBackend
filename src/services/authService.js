@@ -18,7 +18,11 @@ const authService = {
   registerUser: async (userData) => {
     const hashedPassword = await authService.hashPassword(userData.password);
     const user = await db.user.create({
-      data: { ...userData, password: hashedPassword },
+      data: {
+        ...userData,
+        passwordHash: hashedPassword, // Correct field name for hashed password
+        password: undefined, // Remove the plain password to prevent it from being saved
+      },
     });
     return user;
   },
@@ -26,7 +30,10 @@ const authService = {
   // Login a user by verifying their credentials and generating a token
   loginUser: async ({ username, password }) => {
     const user = await db.user.findUnique({ where: { username } });
-    if (!user || !(await authService.verifyPassword(password, user.password))) {
+    if (
+      !user ||
+      !(await authService.verifyPassword(password, user.passwordHash))
+    ) {
       throw new Error("Invalid credentials");
     }
     const token = authService.generateToken(user.id, user.role);
@@ -58,7 +65,7 @@ const authService = {
     const hashedPassword = await authService.hashPassword(newPassword);
     await db.user.update({
       where: { id: decoded.userId },
-      data: { password: hashedPassword },
+      data: { passwordHash: hashedPassword }, // Use 'passwordHash' instead of 'password'
     });
   },
 
