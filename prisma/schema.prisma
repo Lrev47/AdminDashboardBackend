@@ -63,6 +63,91 @@ model User {
     preferences       Preference[]
     apiLogs           APILog[]
     reminders         Reminder[]
+    jobApplications   JobApplication[]
+}
+
+model JobApplication {
+    id                 Int               @id @default(autoincrement())
+    userId             String?
+    user               User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+    companyName        String
+    positionTitle      String
+    location           String?
+    jobPostingUrl      String?
+    applicationDate    DateTime
+    source             String?
+    resumeVersion      String?
+    coverLetter        String?
+    applicationStatus  ApplicationStatus @default(APPLIED)
+    lastUpdatedDate    DateTime          @updatedAt
+    followUpDate       DateTime?
+    nextAction         String?
+    recruiterName      String?
+    recruiterEmail     String?
+    recruiterPhone     String?
+    hiringManagerName  String?
+    referralContact    String?
+    interviewRounds    InterviewRound[]
+    salaryOffered      Float?
+    benefits           String?
+    equity             String?
+    prosAndCons        String?
+    jobDescription     String?
+    companyResearch    String?
+    applicationNotes   String?
+    offerReceived      Boolean           @default(false)
+    offerAccepted      Boolean           @default(false)
+    reasonForRejection String?
+    resumeFile         String?
+    coverLetterFile    String?
+    portfolioLinks     String?
+    jobCategory        JobCategory?
+    industry           Industry?
+    priorityLevel      PriorityLevel?
+    externalJobId      String?
+    apiLinks           String?
+    createdAt          DateTime          @default(now())
+}
+
+model InterviewRound {
+    id                Int            @id @default(autoincrement())
+    jobApplicationId  Int
+    interviewDate     DateTime
+    interviewers      String
+    interviewFeedback String?
+    jobApplication    JobApplication @relation(fields: [jobApplicationId], references: [id])
+}
+
+enum ApplicationStatus {
+    APPLIED
+    PHONE_SCREEN
+    INTERVIEW_SCHEDULED
+    INTERVIEW_COMPLETED
+    OFFER_RECEIVED
+    REJECTED
+    ACCEPTED
+}
+
+enum JobCategory {
+    FULL_TIME
+    PART_TIME
+    CONTRACT
+    INTERNSHIP
+}
+
+enum Industry {
+    TECH
+    FINANCE
+    HEALTHCARE
+    MARKETING
+    EDUCATION
+    OTHER
+}
+
+enum PriorityLevel {
+    HIGH
+    MEDIUM
+    LOW
 }
 
 model IncomeRecord {

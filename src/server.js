@@ -17,6 +17,7 @@ const settingRoutes = require("./routes/settings-routes");
 const testandDebugRoutes = require("./routes/testing-and-debugging-routes");
 const userRoutes = require("./routes/users-routes");
 const versionControlRoutes = require("./routes/version-control-routes");
+const jobTrackerRoutes = require("./routes/jobTrackerRoutes");
 
 // Mount all routes
 app.use("/alerts", alertsRoutes);
@@ -36,6 +37,7 @@ app.use("/settings", settingRoutes);
 app.use("/testing-debugging", testandDebugRoutes);
 app.use("/users", userRoutes);
 app.use("/versions", versionControlRoutes);
+app.use("/applications", jobTrackerRoutes);
 
 const PORT = process.env.PORT || 5000;
 

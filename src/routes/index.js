@@ -16,7 +16,7 @@ const settingRoutes = require("./settings-routes");
 const testandDebugRoutes = require("./testing-and-debugging-routes");
 const userRoutes = require("./users-routes");
 const versionControlRoutes = require("./version-control-routes");
-
+const jobTrackerRoutes = require("./jobTrackerRoutes");
 const app = express();
 
 // Middleware to parse JSON bodies
@@ -28,8 +28,9 @@ app.use("/analytics", analyticsRoutes);
 app.use("/auth", authRoutes);
 app.use("/mock-data", mockDataRoutes);
 app.use("/notifications", notificationsRoutes);
+app.use("/applications", jobTrackerRoutes);
 app.use("/permissions", permissionsRoutes);
-app.use("/contnent", contentRoutes);
+app.use("/content", contentRoutes);
 app.use("/dbQuery", dbQueryRoute);
 app.use("/environment", environmentRoutes);
 app.use("/externalServices", externalServicesRoutes);
