@@ -72,9 +72,14 @@ const authController = {
 
   me: async (req, res, next) => {
     try {
-      const user = await authService.getUserProfile(req.user.id);
+      console.log("User in request:", req.user); // Should contain userId
+      const userId = req.user.userId; // Extract userId
+      console.log("Extracted userId:", userId); // Debugging statement
+
+      const user = await authService.getUserProfile(userId);
       res.status(200).json({ success: true, data: user });
     } catch (error) {
+      console.error("Error in /auth/me:", error);
       next(error);
     }
   },

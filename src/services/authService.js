@@ -80,7 +80,37 @@ const authService = {
 
   // Get a user's profile by their ID
   getUserProfile: async (userId) => {
-    return await db.user.findUnique({ where: { id: userId } });
+    console.log("getUserProfile called with userId:", userId); // Debugging statement
+
+    if (!userId) {
+      console.error("User ID is undefined in getUserProfile");
+      throw new Error("User ID is undefined");
+    }
+
+    try {
+      const user = await db.user.findUnique({
+        where: { id: userId },
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          firstName: true,
+          lastName: true,
+          // ... other fields you want to include
+        },
+      });
+
+      if (!user) {
+        console.error("User not found with ID:", userId);
+        throw new Error("User not found");
+      }
+
+      console.log("User retrieved successfully:", user);
+      return user;
+    } catch (error) {
+      console.error("Error retrieving user profile:", error);
+      throw error;
+    }
   },
 
   // Change a user's password
