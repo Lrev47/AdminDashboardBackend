@@ -28,7 +28,7 @@ app.use("/analytics", analyticsRoutes);
 app.use("/auth", authRoutes);
 app.use("/mock-data", mockDataRoutes);
 app.use("/notifications", notificationsRoutes);
-app.use("/applications", jobTrackerRoutes);
+app.use("/jobTracker", jobTrackerRoutes);
 app.use("/permissions", permissionsRoutes);
 app.use("/content", contentRoutes);
 app.use("/dbQuery", dbQueryRoute);
