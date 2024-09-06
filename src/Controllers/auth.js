@@ -72,8 +72,8 @@ const authController = {
 
   me: async (req, res, next) => {
     try {
-      console.log("User in request:", req.user); // Should contain userId
-      const userId = req.user.userId; // Extract userId
+      console.log("User in request:", req.user); // Should contain id
+      const userId = req.user.id; // Correct extraction of userId
       console.log("Extracted userId:", userId); // Debugging statement
 
       const user = await authService.getUserProfile(userId);

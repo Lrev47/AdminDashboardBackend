@@ -37,7 +37,7 @@ app.use("/settings", settingRoutes);
 app.use("/testing-debugging", testandDebugRoutes);
 app.use("/users", userRoutes);
 app.use("/versions", versionControlRoutes);
-app.use("/applications", jobTrackerRoutes);
+app.use("/jobTracker", jobTrackerRoutes);
 
 const PORT = process.env.PORT || 5000;
 
