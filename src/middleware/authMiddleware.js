@@ -6,34 +6,44 @@ const protect = (req, res, next) => {
     console.log("Authorization Header:", req.headers.authorization);
   }
 
+  // Get the authorization header
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Not authorized" });
+    return res
+      .status(401)
+      .json({ message: "Not authorized, no token provided" });
   }
 
+  // Extract the token from the header
   const token = authHeader.split(" ")[1];
-
   if (!token) {
-    return res.status(401).json({ message: "Not authorized" });
+    return res.status(401).json({ message: "Not authorized, token missing" });
   }
+
   try {
+    // Verify and decode the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Log the decoded token to verify its structure
-    console.log("Decoded Token:", decoded);
+    // Log the decoded token structure for debugging purposes
+    if (process.env.NODE_ENV !== "production") {
+      console.log("Decoded Token:", decoded);
+    }
 
-    // Check if the decoded token has userId or id
+    // Check if the decoded token contains the userId or fallback to id
     req.user = {
       id: decoded.userId || decoded.id,
-      role: decoded.role || "user",
-    }; // Try userId first, fallback to id
+      role: decoded.role || "user", // Default to "user" if role is not present
+    };
 
+    // If the ID is still missing, respond with an error
     if (!req.user.id) {
       return res.status(401).json({ message: "User ID is missing from token" });
     }
 
+    // Proceed to the next middleware or controller
     next();
   } catch (error) {
+    // Handle token errors (expired, invalid, etc.)
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({ message: "Token expired" });
     } else if (error.name === "JsonWebTokenError") {

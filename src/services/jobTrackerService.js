@@ -21,9 +21,36 @@ class JobTrackerService {
   }
 
   async updateJobApplication(id, data) {
+    // Adding check to prevent Prisma from erroring when ID is not found
+    const jobApplication = await this.getJobApplicationById(id);
+    if (!jobApplication) {
+      throw new Error("Job Application not found");
+    }
+
+    // Remove interviewRounds from the data if you're not updating them
+    const { interviewRounds, ...updateData } = data;
+
+    // Check if interviewRounds is provided and construct the correct structure for updating it
+    let interviewRoundsUpdate = {};
+    if (interviewRounds) {
+      interviewRoundsUpdate = {
+        interviewRounds: {
+          // For example: updating multiple interview rounds or adding new ones
+          updateMany: interviewRounds.map((round) => ({
+            where: { id: round.id }, // Assuming each round has an ID
+            data: round,
+          })),
+        },
+      };
+    }
+
+    // Merge the interviewRounds update (if any) with the rest of the data
     return await prisma.jobApplication.update({
       where: { id: parseInt(id) },
-      data,
+      data: {
+        ...updateData,
+        ...interviewRoundsUpdate, // This is conditionally added if interviewRounds is being updated
+      },
     });
   }
 

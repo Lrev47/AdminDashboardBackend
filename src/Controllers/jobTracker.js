@@ -8,6 +8,7 @@ class JobTrackerController {
       const jobApplication = await jobTrackerService.createJobApplication(data);
       res.status(201).json(jobApplication);
     } catch (error) {
+      console.error("Error in createJobApplication:", error);
       res.status(500).json({ error: error.message });
     }
   }
@@ -20,6 +21,7 @@ class JobTrackerController {
       );
       res.status(200).json(jobApplications);
     } catch (error) {
+      console.error("Error in getAllJobApplications:", error);
       res.status(500).json({ error: error.message });
     }
   }
@@ -33,6 +35,7 @@ class JobTrackerController {
       }
       res.status(200).json(jobApplication);
     } catch (error) {
+      console.error("Error in getJobApplicationById:", error);
       res.status(500).json({ error: error.message });
     }
   }
@@ -41,12 +44,22 @@ class JobTrackerController {
     try {
       const id = req.params.id;
       const data = req.body;
+
+      // Added existence check to avoid Prisma error when ID is not found
+      const existingJobApplication =
+        await jobTrackerService.getJobApplicationById(id);
+      if (!existingJobApplication) {
+        return res.status(404).json({ error: "Job Application not found" });
+      }
+
       const jobApplication = await jobTrackerService.updateJobApplication(
         id,
         data
       );
       res.status(200).json(jobApplication);
     } catch (error) {
+      // Added console log for debugging
+      console.error("Error in updateJobApplication:", error);
       res.status(500).json({ error: error.message });
     }
   }
@@ -57,6 +70,7 @@ class JobTrackerController {
       await jobTrackerService.deleteJobApplication(id);
       res.status(204).send();
     } catch (error) {
+      console.error("Error in deleteJobApplication:", error);
       res.status(500).json({ error: error.message });
     }
   }
@@ -71,6 +85,7 @@ class JobTrackerController {
       );
       res.status(201).json(interviewRound);
     } catch (error) {
+      console.error("Error in addInterviewRound:", error);
       res.status(500).json({ error: error.message });
     }
   }
@@ -85,6 +100,7 @@ class JobTrackerController {
       );
       res.status(200).json(interviewRound);
     } catch (error) {
+      console.error("Error in updateInterviewRound:", error);
       res.status(500).json({ error: error.message });
     }
   }
@@ -95,6 +111,7 @@ class JobTrackerController {
       await jobTrackerService.deleteInterviewRound(id);
       res.status(204).send();
     } catch (error) {
+      console.error("Error in deleteInterviewRound:", error);
       res.status(500).json({ error: error.message });
     }
   }
