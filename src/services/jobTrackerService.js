@@ -3,7 +3,57 @@ const prisma = new PrismaClient();
 
 class JobTrackerService {
   async createJobApplication(data) {
-    return await prisma.jobApplication.create({ data });
+    if (!data.companyName) {
+      throw new Error("Company name is required");
+    }
+    // Ensure all required fields are passed to Prisma
+    return await prisma.jobApplication.create({
+      data: {
+        companyName: data.companyName,
+        positionTitle: data.positionTitle,
+        location: data.location,
+        jobPostingUrl: data.jobPostingUrl,
+        applicationDate: new Date(data.applicationDate), // Ensure correct date format
+        applicationStatus: data.applicationStatus || "APPLIED",
+
+        // Use the user relation with userId
+        user: {
+          connect: {
+            id: data.userId, // Assuming the userId is provided correctly
+          },
+        },
+
+        // Optional fields, only include if they exist
+        source: data.source || null,
+        resumeVersion: data.resumeVersion || null,
+        coverLetter: data.coverLetter || null,
+        followUpDate: data.followUpDate ? new Date(data.followUpDate) : null,
+        nextAction: data.nextAction || null,
+        recruiterName: data.recruiterName || null,
+        recruiterEmail: data.recruiterEmail || null,
+        recruiterPhone: data.recruiterPhone || null,
+        hiringManagerName: data.hiringManagerName || null,
+        referralContact: data.referralContact || null,
+        salaryOffered: data.salaryOffered || null,
+        benefits: data.benefits || null,
+        equity: data.equity || null,
+        prosAndCons: data.prosAndCons || null,
+        jobDescription: data.jobDescription || null,
+        companyResearch: data.companyResearch || null,
+        applicationNotes: data.applicationNotes || null,
+        offerReceived: data.offerReceived || false,
+        offerAccepted: data.offerAccepted || false,
+        reasonForRejection: data.reasonForRejection || null,
+        resumeFile: data.resumeFile || null,
+        coverLetterFile: data.coverLetterFile || null,
+        portfolioLinks: data.portfolioLinks || null,
+        jobCategory: data.jobCategory || null,
+        industry: data.industry || null,
+        priorityLevel: data.priorityLevel || null,
+        externalJobId: data.externalJobId || null,
+        apiLinks: data.apiLinks || null,
+      },
+    });
   }
 
   async getAllJobApplications(userId) {

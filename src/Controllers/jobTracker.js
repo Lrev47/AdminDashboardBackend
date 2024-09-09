@@ -1,15 +1,33 @@
 const jobTrackerService = require("../services/jobTrackerService");
 
+const validApplicationStatuses = [
+  "APPLIED",
+  "PHONE_SCREEN",
+  "INTERVIEW_SCHEDULED",
+  "INTERVIEW_COMPLETED",
+  "OFFER_RECEIVED",
+  "REJECTED",
+  "ACCEPTED",
+];
+
 class JobTrackerController {
   async createJobApplication(req, res) {
     try {
       const data = req.body;
+
+      console.log("Request body:", data);
+
+      // Check if the required fields are present
+      if (!data.companyName) {
+        throw new Error("Company name is required");
+      }
+
       data.userId = req.user.id; // Assuming user authentication middleware
       const jobApplication = await jobTrackerService.createJobApplication(data);
       res.status(201).json(jobApplication);
     } catch (error) {
       console.error("Error in createJobApplication:", error);
-      res.status(500).json({ error: error.message });
+      res.status(400).json({ error: error.message }); // Return 400 for validation errors
     }
   }
 
@@ -58,7 +76,6 @@ class JobTrackerController {
       );
       res.status(200).json(jobApplication);
     } catch (error) {
-      // Added console log for debugging
       console.error("Error in updateJobApplication:", error);
       res.status(500).json({ error: error.message });
     }
@@ -115,24 +132,44 @@ class JobTrackerController {
       res.status(500).json({ error: error.message });
     }
   }
+
   async createBulkJobApplications(req, res) {
     try {
       if (!req.user || !req.user.id) {
         return res.status(401).json({ message: "User not authenticated" });
       }
 
-      const jobApplications = req.body.map((application) => ({
-        ...application,
-        userId: req.user.id,
-        applicationStatus: application.applicationStatus.toUpperCase(),
-      }));
+      const jobApplications = req.body.map((application) => {
+        // Validate the applicationStatus
+        const applicationStatus = application.applicationStatus
+          ? application.applicationStatus.toUpperCase()
+          : "APPLIED";
+
+        if (!validApplicationStatuses.includes(applicationStatus)) {
+          throw new Error(
+            `Invalid application status: ${application.applicationStatus}`
+          );
+        }
+
+        // Ensure the applicationDate is in ISO format
+        const applicationDate = application.applicationDate
+          ? new Date(application.applicationDate).toISOString() // Convert to ISO format
+          : new Date().toISOString(); // Default to current date in ISO format if not provided
+
+        return {
+          ...application,
+          userId: req.user.id,
+          applicationStatus, // Set validated applicationStatus
+          applicationDate, // Use properly formatted date
+        };
+      });
 
       const createdApplications =
         await jobTrackerService.createBulkJobApplications(jobApplications);
       res.status(201).json({ count: createdApplications.count });
     } catch (error) {
-      console.error("Error in createBulkJobApplications:", error); // Add this log
-      res.status(500).json({ error: error.message });
+      console.error("Error in createBulkJobApplications:", error);
+      res.status(400).json({ error: error.message });
     }
   }
 }
