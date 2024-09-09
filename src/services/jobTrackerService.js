@@ -128,12 +128,18 @@ class JobTrackerService {
       where: { id: parseInt(id) },
     });
   }
-  async createBulkJobApplications(data) {
-    return await prisma.jobApplication.createMany({
-      data,
-      skipDuplicates: true, // Optional: skips duplicates if they exist
-    });
-  }
-}
+  // async createBulkJobApplications(jobApplications) {
+  //   try {
+  //     // Perform the bulk insert using Prisma
+  //     const createdApplications = await prisma.jobApplication.createMany({
+  //       data: jobApplications,
+  //     });
 
+  //     return createdApplications;
+  //   } catch (error) {
+  //     console.error("Error in createBulkJobApplications:", error);
+  //     throw new Error("Failed to create bulk job applications");
+  //   }
+  // }
+}
 module.exports = new JobTrackerService();

@@ -13,7 +13,7 @@ router.use(logRequest);
 
 // Job Application routes
 router.post("/", jobTrackerController.createJobApplication);
-router.post("/bulk", jobTrackerController.createBulkJobApplications); // Bulk create route
+// router.post("/bulk", jobTrackerController.createBulkJobApplications);
 router.get("/", jobTrackerController.getAllJobApplications);
 router.get("/:id", jobTrackerController.getJobApplicationById);
 router.put("/:id", jobTrackerController.updateJobApplication);

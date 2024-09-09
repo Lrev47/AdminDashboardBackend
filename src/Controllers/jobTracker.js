@@ -133,45 +133,64 @@ class JobTrackerController {
     }
   }
 
-  async createBulkJobApplications(req, res) {
-    try {
-      if (!req.user || !req.user.id) {
-        return res.status(401).json({ message: "User not authenticated" });
-      }
+  //   async createBulkJobApplications(req, res) {
+  //     try {
+  //       if (!req.user || !req.user.id) {
+  //         return res.status(401).json({ message: "User not authenticated" });
+  //       }
 
-      const jobApplications = req.body.map((application) => {
-        // Validate the applicationStatus
-        const applicationStatus = application.applicationStatus
-          ? application.applicationStatus.toUpperCase()
-          : "APPLIED";
+  //       // Validate and process the job applications
+  //       const jobApplications = req.body.map((application, index) => {
+  //         console.log(`Processing job #${index + 1}:`, application);
 
-        if (!validApplicationStatuses.includes(applicationStatus)) {
-          throw new Error(
-            `Invalid application status: ${application.applicationStatus}`
-          );
-        }
+  //         // Validate the company name
+  //         if (!application.companyName) {
+  //           throw new Error("Company name is required for all applications");
+  //         }
 
-        // Ensure the applicationDate is in ISO format
-        const applicationDate = application.applicationDate
-          ? new Date(application.applicationDate).toISOString() // Convert to ISO format
-          : new Date().toISOString(); // Default to current date in ISO format if not provided
+  //         // Use applicationStatus instead of status
+  //         const applicationStatus = application.applicationStatus
+  //           ? application.applicationStatus.toUpperCase()
+  //           : "APPLIED"; // Default to "APPLIED" if not provided
 
-        return {
-          ...application,
-          userId: req.user.id,
-          applicationStatus, // Set validated applicationStatus
-          applicationDate, // Use properly formatted date
-        };
-      });
+  //         const validStatuses = [
+  //           "APPLIED",
+  //           "PHONE_SCREEN",
+  //           "INTERVIEW_SCHEDULED",
+  //           "INTERVIEW_COMPLETED",
+  //           "OFFER_RECEIVED",
+  //           "REJECTED",
+  //           "ACCEPTED",
+  //         ];
 
-      const createdApplications =
-        await jobTrackerService.createBulkJobApplications(jobApplications);
-      res.status(201).json({ count: createdApplications.count });
-    } catch (error) {
-      console.error("Error in createBulkJobApplications:", error);
-      res.status(400).json({ error: error.message });
-    }
-  }
+  //         if (!validStatuses.includes(applicationStatus)) {
+  //           throw new Error(
+  //             `Invalid application status: ${application.applicationStatus}`
+  //           );
+  //         }
+
+  //         // Ensure the applicationDate is in ISO format
+  //         const applicationDate = application.applicationDate
+  //           ? new Date(application.applicationDate).toISOString()
+  //           : new Date().toISOString();
+
+  //         return {
+  //           ...application,
+  //           userId: req.user.id,
+  //           applicationStatus, // Corrected status field
+  //           applicationDate,
+  //         };
+  //       });
+
+  //       // Send the validated data to the service layer for bulk creation
+  //       const createdApplications =
+  //         await jobTrackerService.createBulkJobApplications(jobApplications);
+
+  //       res.status(201).json({ count: createdApplications.count });
+  //     } catch (error) {
+  //       console.error("Error in createBulkJobApplications:", error);
+  //       res.status(400).json({ error: error.message });
+  //     }
+  //   }
 }
-
 module.exports = new JobTrackerController();
