@@ -12,3 +12,5 @@ dist/
 build/
 JsonFiles/
 .gitignore
+prisma/migrations/
+prisma/schema.prisma

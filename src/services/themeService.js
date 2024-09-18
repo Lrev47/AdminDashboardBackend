@@ -15,6 +15,7 @@ const createTheme = async (themeData) => {
       redAccent: themeData.redAccent,
       blueAccent: themeData.blueAccent,
       background: themeData.background,
+      paper: themeData.paper,
       text: themeData.text,
     },
   });
@@ -24,4 +25,12 @@ const getAllThemes = async () => {
   return await prisma.theme.findMany();
 };
 
-module.exports = { createTheme, getAllThemes };
+const deleteTheme = async (themeId) => {
+  return await prisma.theme.delete({
+    where: {
+      id: themeId,
+    },
+  });
+};
+
+module.exports = { createTheme, getAllThemes, deleteTheme };
