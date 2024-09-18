@@ -12,6 +12,9 @@ const router = express.Router();
 router.use(protect);
 router.use(logRequest);
 
+router.get("/me", userController.getMe);
+router.put("/me", userController.updateMe);
+
 // User Management
 router.get("/", restrictTo("Admin"), userController.getAllUsers);
 router.get("/:id", restrictTo("Admin", "User"), userController.getUser);
@@ -26,8 +29,6 @@ router.get(
   restrictTo("Admin", "User"),
   userController.getUserStatus
 );
-router.get("/me", userController.getMe);
-router.put("/me", userController.updateMe);
 
 // User Search and Bulk Operations
 router.post("/search", restrictTo("Admin"), userController.searchUsers);
