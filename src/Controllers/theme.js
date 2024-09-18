@@ -19,4 +19,14 @@ const getThemes = async (req, res) => {
   }
 };
 
-module.exports = { createTheme, getThemes };
+const deleteTheme = async (req, res) => {
+  try {
+    const themeId = req.params.id;
+    const deletedTheme = await themeService.deleteTheme(themeId);
+    res.status(200).json(deletedTheme);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { createTheme, getThemes, deleteTheme };
