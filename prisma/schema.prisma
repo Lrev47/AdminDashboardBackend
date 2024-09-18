@@ -152,9 +152,10 @@ model Theme {
     greenAccent String? // Store green accent color (e.g., greenAccent500)
     redAccent   String? // Store red accent color (e.g., redAccent500)
     blueAccent  String? // Store blue accent color (e.g., blueAccent500)
-
-    background String? // Background color
-    text       String? // Text color
+    // background colors
+    background  String? // Background color
+    paper       String? //card background color
+    text        String? // Text color
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
